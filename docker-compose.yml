@@ -1,0 +1,50 @@
+services:
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb-server
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    networks:
+      - my_network
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+
+
+  backend:
+    build: 
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: python-sevrer
+    working_dir: /code
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - 8000:8000
+    volumes:
+      - ./back:/code
+    networks: 
+      - my_network
+    depends_on:
+      - mariadb
+  
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: angular-server
+    ports:
+      - 4200:4200
+    volumes:
+      - ./frontend:/code
+      - /code/node_modules
+    networks: 
+      - my_network
+
+    
+
+networks:
+  my_network:
+    driver: bridge
