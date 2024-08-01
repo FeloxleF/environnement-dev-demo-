@@ -1,6 +1,7 @@
 # Environnement de développement application web 
 
-environnment de développement pour une application WEB avec des conteneurs docker comprenant les outils suivantes :  
+environnment de développement pour une application WEB avec des conteneurs docker, réalisé dans le cadre d'une présentation académique.
+L'environnement compprends les outils suivants :  
 
 BACK : FastAPI - python  
 FRONT : Angular - typescript/javascript  
